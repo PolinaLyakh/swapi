@@ -27,7 +27,7 @@ class SWRequester(APIRequester):
         return resp_list
 
     def get_sw_info(self, sw_type: str):
-        item = '/' + sw_type + '/'
+        item = f'/{sw_type}/'
         response = self.get(item)
         return response.text
 
@@ -35,14 +35,16 @@ class SWRequester(APIRequester):
 def save_sw_data():
     url = 'https://swapi.dev/api'
     swr_obj = SWRequester(url)
-    Path("data").mkdir(exist_ok=True)    # ~/Dev/SWAPI/data
+    name = "data"
+    Path(name).mkdir(exist_ok=True)    # ~/Dev/SWAPI/data
     category_list = swr_obj.get_sw_categories()
     for item in category_list:
-        with open(f'data/{item}.txt', 'w', encoding='utf-8') as f:
+        with open(f'{name}/{item}.txt', 'w', encoding='utf-8') as f:
             f.write(swr_obj.get_sw_info(item))
 
 
 # url = 'https://swapi.dev/api'    # базовый url
 # url_mirror = 'https://swapi.dev/api'
 # url_mirror_2 = 'https://swapi.dev/api'
-save_sw_data()
+if __name__ == '__main__':
+    save_sw_data()
